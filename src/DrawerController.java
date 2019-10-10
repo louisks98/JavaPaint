@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class DrawerController {
 
-    public enum State{Pointer, Rectangle}
+    public enum State{Pointer, RectangleFirstPt, DrawingRectangle, RectangleLastPt}
 
     public ArrayList<Point> mousePointsList;
     public ArrayList<Rectangle> rectangleList;

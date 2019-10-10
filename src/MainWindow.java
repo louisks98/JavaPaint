@@ -20,8 +20,8 @@ public class MainWindow {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
 
-                if(controller.getCurrentState() == DrawerController.State.Rectangle){
-
+                if(controller.getCurrentState() == DrawerController.State.RectangleFirstPt){
+                    //todo
                 }
                 //controller.addMousePoint(e.getPoint());
                 painterPanel.controller = controller;
@@ -43,7 +43,7 @@ public class MainWindow {
         rectItemMenu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                controller.setCurrentState(DrawerController.State.Rectangle);
+                controller.setCurrentState(DrawerController.State.RectangleFirstPt);
             }
         });
 
