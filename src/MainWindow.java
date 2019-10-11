@@ -1,8 +1,5 @@
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 
 public class MainWindow {
     private JPanel MainPanel;
@@ -17,13 +14,36 @@ public class MainWindow {
 
         painterPanel.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mousePressed(MouseEvent e) {
                 super.mouseClicked(e);
 
                 if(controller.getCurrentState() == DrawerController.State.RectangleFirstPt){
-                    //todo
+                    controller.RectTopPoint = e.getPoint();
+                    controller.setCurrentState(DrawerController.State.DrawingRectangle);
                 }
-                //controller.addMousePoint(e.getPoint());
+                painterPanel.controller = controller;
+            }
+        });
+        painterPanel.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                super.mouseMoved(e);
+                if(controller.getCurrentState() == DrawerController.State.DrawingRectangle){
+                    controller.setCurrentState(DrawerController.State.DrawingRectangle);
+                    controller.dragPoint = e.getPoint();
+                    painterPanel.controller = controller;
+                    painterPanel.repaint();
+                }
+            }
+        });
+        painterPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                super.mouseReleased(e);
+                if(controller.getCurrentState() == DrawerController.State.DrawingRectangle){
+                    controller.setCurrentState(DrawerController.State.Pointer);
+                    controller.createRectangle(e.getPoint());
+                }
                 painterPanel.controller = controller;
                 painterPanel.repaint();
             }
@@ -40,12 +60,7 @@ public class MainWindow {
 
         JMenu shapeMenu = new JMenu("Shapes");
         JMenuItem rectItemMenu = new JMenuItem("Rectangle");
-        rectItemMenu.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                controller.setCurrentState(DrawerController.State.RectangleFirstPt);
-            }
-        });
+        rectItemMenu.addActionListener(actionEvent -> controller.setCurrentState(DrawerController.State.RectangleFirstPt));
 
         shapeMenu.add(rectItemMenu);
 
